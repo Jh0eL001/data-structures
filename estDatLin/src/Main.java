@@ -5,15 +5,23 @@ public class Main {
     ListaSE<Integer> lista = new ListaSE<>();
     int size = 10;
     for (int i = 0; i < size; i++) {
-      lista.insertar(new Random().nextInt(11));
+      lista.insertar(new Random().nextInt(6));
     }
     lista.mostrar();
-    lista.eliminar(5);
+    // eliminar un dato por posicion
+    lista.eliminar(7);
     System.out.println();
     lista.mostrar();
-
-    lista.eliminar(0);
+    // acceder dato
     System.out.println();
+    System.out.println("accediendo al dato en pos(5): " + lista.acceder(5));
+    // eliminar dato por valor
+    lista.eliminarDato(5);
     lista.mostrar();
+    System.out.println();
+    // eliminar todos los datos del mismo valor
+    lista.eliminarTodas(5);
+    lista.mostrar();
+    System.out.println("ultima");
   }
 }

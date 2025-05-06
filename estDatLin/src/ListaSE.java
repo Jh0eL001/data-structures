@@ -3,29 +3,29 @@ public class ListaSE<T> implements Lista<T> {
   private ListaSE<T> sig;
 
   public ListaSE() {
-    this.ini = null;
-    this.sig = null;
+    ini = null;
+    sig = null;
   }
 
   @Override
   public boolean esVacia() {
-    return this.ini == null;
+    return ini == null;
   }
 
   @Override
   public void insertar(T dato) {
-    if (this.ini == null) {
-      this.ini = dato;
-      this.sig = new ListaSE<T>();
+    if (esVacia()) {
+      ini = dato;
+      sig = new ListaSE<T>();
     } else {
-      this.sig.insertar(dato);
+      sig.insertar(dato);
     }
   }
 
   public void mostrar() {
-    if (this.ini != null) {
+    if (!esVacia()) {
       System.out.print(this.ini + " --> ");
-      if (this.sig != null) {
+      if (!sig.esVacia()) {
         this.sig.mostrar(); // Seguimos mostrando los siguientes nodos
       }
     }
@@ -33,40 +33,52 @@ public class ListaSE<T> implements Lista<T> {
 
   @Override
   public void eliminar(int pos) {
-    if (pos < 0 || this.ini == null) { 
-      return; // pos invalida o lista vacia
-    }
-
-    if (pos == 0) { // estamos en el nodo que queremos eliminar
-      if (this.sig != null) {
-        this.ini = this.sig.ini;
-        this.sig = this.sig.sig;
+    if (!esVacia()) {
+      if (pos == 0) {
+        ini = sig.ini;
+        sig = sig.sig;
       } else {
-        this.ini = null;
-        this.sig = null;
+        sig.eliminar(pos - 1);
       }
     }
-    else if (this.sig != null)
-      this.sig.eliminar(pos - 1);
-
   }
 
   @Override
   public T acceder(int pos) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'acceder'");
+    T dato = null;
+    if (esVacia()) {
+      dato = null;
+    } else {
+      if (pos == 0)
+        dato = ini;
+      else
+        dato = sig.acceder(pos - 1);
+    }
+    return dato;
   }
 
   @Override
   public void eliminarDato(T dato) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'eliminarDato'");
+    if (!esVacia()) {
+      if (dato == ini) {
+        ini = sig.ini;
+        sig = sig.sig;
+      } else
+        sig.eliminarDato(dato);
+    }
   }
 
   @Override
   public void eliminarTodas(T dato) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'eliminarTodas'");
+    if (!esVacia()) {
+      if (dato.equals(ini)) {
+        ini = sig.ini;
+        sig = sig.sig;
+        eliminarTodas(dato); // Sigue buscando mas ocurrencias del dato
+      } else {
+        sig.eliminarTodas(dato);
+      }
+    }
   }
 
   @Override

@@ -35,9 +35,9 @@ public interface Lista<T> {
   T acceder(int pos);
 
   /**
-   * Elimina el dato que es iugal al dato que se da como entrada.
+   * Elimina el dato que es igual al dato que se da como entrada.
    * 
-   * @param dato de clase <T> que referencia al dato que se desea
+   * @param dato de clase T que referencia al dato que se desea
    *             eliminar
    * @return nada(void)
    */

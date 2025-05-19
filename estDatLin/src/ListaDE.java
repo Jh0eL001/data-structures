@@ -1,27 +1,71 @@
-public class ListaDE<T> implements Lista<T>{
+public class ListaDE<T> implements Lista<T> {
+  // implementaremos una lista de doble enlace de forma recursiva
+  private NodoDE<T> ini;
 
   @Override
   public boolean esVacia() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'esVacia'");
+    return ini == null;
   }
 
   @Override
   public void insertar(T dato) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'insertar'");
+    if (esVacia()) {
+      ini = new NodoDE<T>(dato);
+    }
+    // creamos una copia del puntero ini para avanzar por la lista
+    NodoDE<T> actual = ini;
+    while (actual.getSuc() != null) {
+      actual = actual.getSuc();
+    }
+    // estamos al final de la lista, creamos el nuevo nodo
+    NodoDE<T> nuevo = new NodoDE<T>(dato);
+    // enlazamos el nodo, ya que nuestro nodo temporal(actual) esta apuntando al
+    // ultimo nodo
+    // entonces hacemos que nuestro nuevo nodo apunte al temporal(actual) asi estara
+    // apuntando
+    // al nodo anterior, y el sucesor del nuevo nodo estara apuntando a null;
+    actual.setSuc(nuevo);
+    nuevo.setAnt(actual);
   }
 
   @Override
   public void eliminar(int pos) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'eliminar'");
+    if (!esVacia()) {
+      NodoDE<T> actual = ini;
+      while (actual != null && pos != 0) {
+        actual = actual.getSuc(); // vamos al nodo siguiente.
+        pos -= 1;
+      }
+      // llegamos al nodo
+      if (actual != null) {
+        NodoDE<T> p = actual.getAnt();
+        NodoDE<T> s = actual.getSuc();
+
+        if (p != null)
+          p.setSuc(s);
+        else
+          ini = s;
+
+        if (s != null)
+          s.setAnt(p);
+      }
+    }
   }
 
   @Override
   public T acceder(int pos) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'acceder'");
+    T dato = null;
+    if (!esVacia()) {
+      NodoDE<T> actual = ini;
+      while (actual != null && pos != 0) {
+        actual = actual.getSuc(); // vamos al nodo siguiente.
+        pos -= 1;
+      }
+      // llegamos al nodo
+      if (actual != null)
+        dato = actual.getDato();
+    }
+    return dato;
   }
 
   @Override
@@ -71,5 +115,5 @@ public class ListaDE<T> implements Lista<T>{
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'acceder'");
   }
-  
+
 }
